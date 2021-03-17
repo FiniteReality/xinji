@@ -1,0 +1,24 @@
+-- an order n tuple
+function tuple(...)
+    local n = std.select('#', ...)
+    local types = { ... }
+
+    local members = { }
+    for i = 1, n do
+        members[i] = types[i](("item_%d"):format(i))
+    end
+
+    local name = ("tuple%d"):format(n)
+
+    return class(name, true)({
+        kind = { "class", "tuple" },
+        order = n,
+        members = members
+    })
+end
+
+primitive "int32"
+
+class "test" {
+    tuple(int32, int32) "thing"
+}
