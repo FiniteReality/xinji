@@ -18,7 +18,12 @@ function tuple(...)
 end
 
 primitive "int32"
+primitive "int64"
+
+union "smallOrBigInt" {
+    int32, int64
+}
 
 class "test" {
-    tuple(int32, int32) "thing"
+    tuple(smallOrBigInt, smallOrBigInt) "thing"
 }

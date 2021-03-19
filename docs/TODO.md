@@ -11,11 +11,9 @@
 ## Short term ##
 
 - Write some simple code generators as a proof of concept
-  - JSON Schema
   - TypeScript
 
 - Flesh out capabilities of schema
-  - Unions
   - Enums
   - Arrays
   - Lists

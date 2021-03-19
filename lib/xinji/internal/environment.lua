@@ -52,10 +52,17 @@ return function()
             skipDeclare)
     end
 
+    local function union(name, skipDeclare)
+        return declare(
+            { kind = { "union" }, name = name, members = { } },
+            skipDeclare)
+    end
+
     local environment = {
         declare = declare,
         primitive = primitive,
         class = class,
+        union = union,
         std = _ENV or getfenv(1)
     }
 
