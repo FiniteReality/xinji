@@ -1,0 +1,73 @@
+-- an order n tuple
+function tuple(...)
+    local n = select('#', ...)
+    local types = { ... }
+
+    local members = { }
+    for i = 1, n do
+        members[i] = types[i](("item_%d"):format(i))
+    end
+
+    local name = ("tuple%d"):format(n)
+
+    return xinji.class(name, true)({
+        kind = { "class", "tuple" },
+        order = n,
+        members = members
+    })
+end
+
+xinji.primitive "int32"
+xinji.primitive "int64"
+
+xinji.union "smallOrBigInt" {
+    int32, int64
+}
+
+xinji.class "test" {
+    tuple(smallOrBigInt, smallOrBigInt) "thing"
+}
+
+local function getIndentStr(amount)
+    if amount < 1 then
+        return ""
+    elseif amount == 1 then
+        return "- "
+    else
+        local r = { }
+        for i = 1, amount - 1 do
+            r[#r+1] = "| "
+        end
+        r[#r+1] = "- "
+
+        return table.concat(r, '')
+    end
+end
+
+local function printRecursive(value, indent)
+    indent = indent or 1
+
+    local indentStr = getIndentStr(indent)
+
+    local empty = true
+    for i, v in pairs(value) do
+        empty = false
+        print(("%s%s = %s"):format(
+            indentStr,
+            tostring(i),
+            tostring(v)
+        ))
+
+        if type(v) == "table" then
+            printRecursive(v, indent + 1)
+        end
+    end
+
+    if empty then
+        print(("%s(empty)"):format(indentStr))
+    end
+end
+
+function xinji.print(types)
+    printRecursive(types)
+end

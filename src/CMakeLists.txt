@@ -10,6 +10,8 @@ set_target_properties(lua::Lua
 )
 
 set(SOURCES
+    xinji_type.c
+    xinji_lib.c
     xinji.c
 )
 
